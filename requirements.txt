@@ -1,2 +1,11 @@
-django==1.5.2
-Unipath==0.2.1
+django==1.8.1
+Unipath==1.1
+
+django-easy-select2
+djangorestframework
+django-cors-headers
+mysqlclient
+djangorestframework-xml
+
+
+
