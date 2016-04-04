@@ -5,17 +5,17 @@ class Config():
         'default': {
             'NAME': 'test_balance',
             'ENGINE': 'django.db.backends.mysql',
-            'USER': 'dev2',
-            'PASSWORD': '',
-            'HOST': '202.43.110.118',
+            'USER': 'test_balance',
+            'PASSWORD': 'Aa123456@',
+            'HOST': '202.43.110.121',
             'PORT': '3306',
         },
 
         'test_balance': {
             'NAME': 'test_balance',
             'ENGINE': 'django.db.backends.mysql',
-            'USER': 'root',
-            'PASSWORD': '123456',
+            'USER': 'test_balance',
+            'PASSWORD': 'Aa123456@',
             'HOST': '202.43.110.121',
             'PORT': '3306',
         },
