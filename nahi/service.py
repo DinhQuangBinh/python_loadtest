@@ -44,6 +44,73 @@ class BasePermission(object):
         """
         return True
 
+class isPermissionNotLogin(BasePermission):
+    user_id = 0
+    token = ''
+
+    def _post(self, request, key):
+        return request.POST.get(key)
+
+    def _get(self, request, key):
+        return request.GET.get(key)
+
+    def _put(self, request, key):
+        token = request.GET[key]
+        return token
+    options = {"POST": _post, "GET": _get, "PUT": _put}
+
+    def has_permission(self, request, view):
+        request.user_id = 0
+        method = request.method
+        if method == "DELETE":
+            method = "GET"
+
+        # Debug printing
+        param = {}
+        if method == 'GET':
+            for key_name in request.GET:
+                param[key_name] = request.GET.get(key_name)
+        else:
+            for key_name in request.POST:
+                param[key_name] = request.POST.get(key_name)
+
+        global log_data
+        log_data = {
+            'start_time': time.time(),
+            'request_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'url_data': {
+                'link': request.path,
+                'method': method,
+                'param': param
+            }
+
+        }
+
+        token = self.options[method](self, request, 'token')
+        api_key = self.options[method](self, request, 'api_key')
+        type = self.options[method](self, request, 'api_type')
+        request.token = ''
+        if(token != None and token != ""):
+            try:
+                session = self.model.objects.get(auth_token=token)
+                if session:
+                    if session.expired > datetime.now():
+                        request.user_id = session.customer.id
+                        request.token = token
+            except ObjectDoesNotExist:
+                nothing = 0
+
+        if type==None:
+            return 1
+        else:
+            if type == Constant.SESSION_CUSTOMER_TYPE_DESKTOP:
+                customer = request.session.get('customer', None)
+                if(customer != None):
+                    request.user_id = customer
+                return 1
+            else:
+                return 1
+
 class ListCreateAPIViewBase(generics.ListCreateAPIView):
     def begin(self):
         return ""

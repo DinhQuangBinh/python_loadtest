@@ -9,7 +9,7 @@ from test_balance.serializers.TestBalanceSerializer import TestBalanceSerializer
 class GetDataTestBalance(RetrieveAPIView):
     model = TestBalance
     serializer_class = TestBalanceSerializer
-    permission_classes = (BasePermission,)
+    permission_classes = (isPermissionNotLogin,)
     def get(self, request, *args, **kwargs):
         self.serializer_class.validate_get(self,request.GET)
         offset = int(request.GET['offset'])
@@ -23,7 +23,7 @@ class GetDataTestBalance(RetrieveAPIView):
 
 class PostDataTestBalance(CreateAPIView):
     serializer_class = TestBalanceSerializer
-    permission_classes = (BasePermission,)
+    permission_classes = (isPermissionNotLogin,)
 
     def create(self, request, *args, **kwargs):
         username = 'test'
