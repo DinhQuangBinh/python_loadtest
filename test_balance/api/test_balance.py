@@ -17,7 +17,7 @@ class GetDataTestBalance(RetrieveAPIView):
         try:
             data = TestBalance.objects.filter()[offset:limit + offset]
             serializer = self.serializer_class(data,many=True)
-            return Response(APIRender.export(self, Constant.API_STATUS_OK, serializer.data, Constant.API_STATUS_MESSAGE_UNSUCCESS))
+            return Response(APIRender.export(self, Constant.API_STATUS_OK, serializer.data, Constant.API_STATUS_MESSAGE_OK))
         except Exception as e:
             return Response(APIRender.export(self, Constant.API_STATUS_UNSUCCESS, "", Constant.API_STATUS_MESSAGE_UNSUCCESS))
 
